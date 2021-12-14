@@ -1,0 +1,64 @@
+<template>
+<div class="container">
+  <div class="row justify-content-center align-items-center main-row">
+    <div class="col shadow main-col bg-white">
+			<form>
+					<div class="form-group">
+							<div class="input-group">
+									<input type="text" class="form-control" v-model="newItem">
+									<span>
+											<button id="send" type="type" class="btn btn-primary" @click.prevent="addTask">追加</button>
+									</span>
+							</div>
+					</div>
+			</form>
+      <div class="row justify-content-between text-white p-2">
+        <div class="form-group flex-fill mb-2">
+          <input id="todo-input" type="text" class="form-control" value="">
+        </div>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" v-for="todo in todos" v-bind:key="todo.id">{{ todo.task }}</li>
+        <span>
+            <button id="send" type="type" class="btn btn-danger" @click.prevent="deleteTask">削除</button>
+        </span>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+</template>
+<script>
+    export default {
+        data() {
+            return {
+                newItem: "",
+                todos: []
+            }
+        },
+        methods: {
+            getJsonData() {
+                axios.get('/api/get')
+                .then((response) => {
+                    this.todos = response.data;
+                });
+            },
+            addTask() {
+                axios.post('/api/add', {
+                    task: this.newItem
+                })
+                .then((response) => {
+                    this.todos = response.data;
+                    this.newItem = "";
+                });
+            },
+            deleteTask() {
+
+            }
+        },
+        mounted() {
+            this.getJsonData();
+        },
+    }
+</script>

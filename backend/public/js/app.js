@@ -2175,6 +2175,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2198,6 +2206,15 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.todos = response.data;
         _this2.newItem = "";
+      });
+    },
+    deleteTask: function deleteTask(task_id) {
+      var _this3 = this;
+
+      axios.post('/api/delete', {
+        id: task_id
+      }).then(function (response) {
+        _this3.todos = response.data;
       });
     }
   },
@@ -37785,60 +37802,92 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", { staticClass: "input-group" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.newItem,
-                expression: "newItem",
-              },
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text" },
-            domProps: { value: _vm.newItem },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.newItem = $event.target.value
-              },
-            },
-          }),
-          _vm._v(" "),
-          _c("span", [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { id: "send", type: "type" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.addTask.apply(null, arguments)
-                  },
-                },
-              },
-              [_vm._v("追加")]
-            ),
-          ]),
-        ]),
-      ]),
-    ]),
-    _vm._v(" "),
     _c(
-      "ul",
-      { staticClass: "list-group" },
-      _vm._l(_vm.todos, function (todo) {
-        return _c("li", { key: todo.id, staticClass: "list-group-item" }, [
-          _vm._v(_vm._s(todo.task)),
-        ])
-      }),
-      0
+      "div",
+      { staticClass: "row justify-content-center align-items-center main-row" },
+      [
+        _c(
+          "div",
+          { staticClass: "col shadow main-col bg-white" },
+          [
+            _c("form", [
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem,
+                        expression: "newItem",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      "aria-label": "Text input with checkbox",
+                    },
+                    domProps: { value: _vm.newItem },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newItem = $event.target.value
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.addTask.apply(null, arguments)
+                        },
+                      },
+                    },
+                    [_vm._v("追加")]
+                  ),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.todos, function (todo) {
+              return _c("ul", { key: todo.id, staticClass: "list-group" }, [
+                _c(
+                  "li",
+                  {
+                    staticClass:
+                      "list-group-item d-flex justify-content-between align-items-center",
+                  },
+                  [
+                    _vm._v("\n          " + _vm._s(todo.task) + "\n          "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-outline-secondary bg-danger text-white",
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.deleteTask(todo.id)
+                          },
+                        },
+                      },
+                      [_vm._v("X")]
+                    ),
+                  ]
+                ),
+              ])
+            }),
+          ],
+          2
+        ),
+      ]
     ),
   ])
 }
